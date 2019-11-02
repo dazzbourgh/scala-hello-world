@@ -11,6 +11,6 @@ object JsonLike {
   private val gson = new Gson()
 }
 
-case class Rule(val value: String, val tag: String) extends JsonLike
+case class Rule(value: String, tag: String) extends JsonLike
 
-case class RuleBody(val rule: Rule) extends JsonLike
+case class RuleBody(rule: Rule) extends JsonLike
