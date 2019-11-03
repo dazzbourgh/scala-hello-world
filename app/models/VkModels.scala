@@ -13,4 +13,4 @@ object JsonLike {
 
 case class Rule(value: String, tag: String) extends JsonLike
 
-case class RuleBody(rule: Rule) extends JsonLike
+case class RuleResponse(rule: Rule) extends JsonLike
