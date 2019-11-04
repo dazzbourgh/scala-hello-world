@@ -1,16 +1,23 @@
 package models
 
-import com.google.gson.Gson
-import models.JsonLike.gson
+object VkModels {
 
-abstract class JsonLike {
-  override def toString: String = gson toJson this
+  case class Rule(value: String, tag: String) extends JsonLike
+
+  case class RuleResponse(rule: Rule) extends JsonLike
+
+  def doStuff(block: Int => Int) = {
+    val name = 7
+    block(name)
+  }
+
+  def stuff1(num: Int)(implicit i: Int) = {
+    num + i + 1
+  }
+
+  def main(args: Array[String]): Unit = {
+    println(doStuff { implicit a =>
+      stuff1(5)
+    })
+  }
 }
-
-object JsonLike {
-  private val gson = new Gson()
-}
-
-case class Rule(value: String, tag: String) extends JsonLike
-
-case class RuleResponse(rule: Rule) extends JsonLike
