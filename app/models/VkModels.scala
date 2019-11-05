@@ -1,23 +1,19 @@
 package models
 
+import play.api.libs.json.{Format, Json}
+
 object VkModels {
 
   case class Rule(value: String, tag: String) extends JsonLike
 
   case class RuleResponse(rule: Rule) extends JsonLike
 
-  def doStuff(block: Int => Int) = {
-    val name = 7
-    block(name)
+  object Rule {
+    implicit val format: Format[Rule] = Json.format
   }
 
-  def stuff1(num: Int)(implicit i: Int) = {
-    num + i + 1
+  object RuleResponse {
+    implicit val format: Format[RuleResponse] = Json.format
   }
 
-  def main(args: Array[String]): Unit = {
-    println(doStuff { implicit a =>
-      stuff1(5)
-    })
-  }
 }

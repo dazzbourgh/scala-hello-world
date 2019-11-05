@@ -1,5 +1,7 @@
 package models
 
+import play.api.libs.json._
+
 object ClientModels {
 
   final case class Response(currency: String,
@@ -9,4 +11,11 @@ object ClientModels {
 
   final case class Request(from: Long, to: Long)
 
+
+  object Request {
+    /**
+     * Mapping to read/write a Request out as a JSON value.
+     */
+    implicit val format: Format[Request] = Json.format
+  }
 }
