@@ -10,6 +10,5 @@ class StreamingActor extends Actor {
 
   override def receive: Receive = {
     case e: Event => log.info(s"Received event: $e")
-    case _ => log.info(s"Received message: ${_}")
   }
 }
