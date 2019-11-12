@@ -2,7 +2,7 @@ package actors
 
 import akka.actor.Actor
 import play.api.Logger
-import vk.dtos.VkModels.Event
+import vk.dtos.VkDtos.Event
 
 // TODO: implement receiving of event
 class StreamingActor extends Actor {

@@ -16,9 +16,21 @@ object VkDtos {
 
   case class Response[T](response: T) extends JsonLike
 
-  case class CodeResponseDto(code: Int, rules: Option[Array[Rule]], error: Option[Message])
+  case class RuleCodeResponseDto(code: Int, rules: Option[Array[Rule]], error: Option[Message])
 
   case class Message(message: String) extends JsonLike
+
+  case class EventCodeResponseDto(code: Int, event: Event) extends JsonLike
+
+  case class Event(text: String, action: String, tags: Array[String]) extends JsonLike
+
+  object Event {
+    implicit val eventFormat: Format[Event] = Json.format
+  }
+
+  object EventCodeResponseDto {
+    implicit val eventDtoFormat: Format[EventCodeResponseDto] = Json.format
+  }
 
   object StreamingDto {
     implicit val streamingResponse: Format[StreamingDto] = Json.format
@@ -32,8 +44,8 @@ object VkDtos {
     implicit val reads: Format[RulesDto] = Json.format
   }
 
-  object CodeResponseDto {
-    implicit val reads: Format[CodeResponseDto] = Json.format
+  object RuleCodeResponseDto {
+    implicit val reads: Format[RuleCodeResponseDto] = Json.format
   }
 
   object Message {
@@ -60,7 +72,7 @@ object VkDtos {
 object VkModels {
 
   case class Rule(value: String, tag: String) extends JsonLike
-  case class Event(eventType: String) extends JsonLike
+
   object Rule {
     implicit val rule: Format[Rule] = Json.format
   }

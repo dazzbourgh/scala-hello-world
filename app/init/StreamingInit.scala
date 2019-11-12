@@ -14,9 +14,3 @@ class StreamingInit @Inject()(private val system: ActorSystem,
   VkMethods.accessToken = accessToken
   VkMethods.v = v
 }
-
-object Test {
-  def main(args: Array[String]): Unit = {
-    VkMethods.Streaming.openConnection
-  }
-}
