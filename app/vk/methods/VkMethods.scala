@@ -7,7 +7,7 @@ import akka.http.scaladsl.model.ws.{Message, TextMessage, WebSocketRequest}
 import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.{Flow, Keep, Sink, Source}
 import com.typesafe.config.ConfigFactory
-import play.api.libs.json.{JsSuccess, Json, Reads}
+import play.api.libs.json.{Json, Reads}
 import vk.dtos.VkDtos.{Event, EventCodeResponseDto, Response, StreamingDto}
 import vk.dtos.VkModels.Rule
 import vk.http.HttpRequests
@@ -61,10 +61,7 @@ object VkMethods {
       val sink: Sink[Message, Future[Done]] =
         Sink.foreach[Message] {
           case message: TextMessage.Strict =>
-            val event = Json.parse(message.text).validate[EventCodeResponseDto] match {
-              case jsResult: JsSuccess[EventCodeResponseDto] =>
-                jsResult.map(_.event).get
-            }
+            val event = Json.parse(message.text).validate[EventCodeResponseDto].map(_.event).get
             processEvent(event)
         }
 
