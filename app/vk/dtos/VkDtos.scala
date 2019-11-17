@@ -1,7 +1,8 @@
 package vk.dtos
 
-import models.JsonLike
+import models.Event
 import play.api.libs.json.{Format, Json, Reads}
+import util.JsonLike
 import vk.dtos.VkModels.Rule
 
 object VkDtos {
@@ -22,11 +23,6 @@ object VkDtos {
 
   case class EventCodeResponseDto(code: Int, event: Event) extends JsonLike
 
-  case class Event(text: String, action: String, tags: Array[String]) extends JsonLike
-
-  object Event {
-    implicit val eventFormat: Format[Event] = Json.format
-  }
 
   object EventCodeResponseDto {
     implicit val eventDtoFormat: Format[EventCodeResponseDto] = Json.format

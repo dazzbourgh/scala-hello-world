@@ -1,5 +1,6 @@
 package models
 
+import _root_.util.JsonLike
 import play.api.libs.json._
 
 object ClientModels {

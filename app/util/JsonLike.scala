@@ -1,7 +1,7 @@
-package models
+package util
 
 import com.google.gson.Gson
-import models.JsonLike.gson
+import util.JsonLike.gson
 
 abstract class JsonLike {
   override def toString: String = gson toJson this
