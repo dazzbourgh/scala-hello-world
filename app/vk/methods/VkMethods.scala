@@ -6,7 +6,7 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.ws.{Message, TextMessage, WebSocketRequest}
 import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.{Flow, Keep, Sink, Source}
-import com.typesafe.config.ConfigFactory
+import config.AppConfig.config
 import models.Event
 import play.api.libs.json.{Json, Reads}
 import vk.dtos.VkDtos.{EventCodeResponseDto, Response, StreamingDto}
@@ -16,8 +16,6 @@ import vk.http.HttpRequests
 import scala.concurrent.{Future, Promise}
 
 object VkMethods {
-  private val config = ConfigFactory.load("application.conf")
-
   var accessToken: String = config.getString("vk.accessToken")
   var apiBaseUrl: String = config.getString("vk.apiBaseUrl")
   var v: String = config.getString("vk.v")
@@ -55,7 +53,7 @@ object VkMethods {
       override protected def params: Map[String, String] = Map()
     }
 
-    def openConnection(processEvent: Event => Unit): Promise[Option[Message]] = {
+    def openConnection(processEventFunctions: (Event => Unit)*): Promise[Option[Message]] = {
       implicit val system: ActorSystem = ActorSystem()
       implicit val materializer: ActorMaterializer = ActorMaterializer()
 
@@ -63,7 +61,9 @@ object VkMethods {
         Sink.foreach[Message] {
           case message: TextMessage.Strict =>
             val event = Json.parse(message.text).validate[EventCodeResponseDto].map(_.event).get
-            processEvent(event)
+            for (processFunction <- processEventFunctions) {
+              processFunction(event)
+            }
         }
 
       val flow: Flow[Message, Message, Promise[Option[Message]]] =
